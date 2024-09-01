@@ -8,6 +8,7 @@ import (
 
 	"github.com/ashestosea/monpona/food"
 	"github.com/ashestosea/monpona/mon"
+	"github.com/google/uuid"
 	"github.com/rkoesters/xdg/basedir"
 	"github.com/ugorji/go/codec"
 )
@@ -19,33 +20,86 @@ func main() {
 	fmt.Println(newMon.MonType)
 
 	dataPath := filepath.Join(basedir.DataHome, ProjectName)
+	regionPath := filepath.Join(dataPath, "region.json")
+	sanctuaryPath := filepath.Join(dataPath, "save.json")
 
-	region, err := os.ReadFile(filepath.Join(dataPath, "region.json"))
+	regionBytes, err := os.ReadFile(regionPath)
+	var region Region
 
 	if err != nil {
-		panic(err.Error())
-	}
-
-	// var b []byte = make([]byte, 0, 64)
-	// regionBytes := region.r
-	var h codec.Handle = new(codec.JsonHandle)
-	growthChartDec := make(map[mon.Form][]mon.Form, 32)
-	var dec *codec.Decoder = codec.NewDecoderBytes(region, h)
-	err = dec.Decode(growthChartDec)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	fmt.Println("growth chart decode_____")
-	for key, val := range growthChartDec {
-		fmt.Println(mon.Form(key))
-		for i := range len(val) {
-			fmt.Println("  ", mon.Form(val[i]))
+		region = NewRegion("NewRegion")
+		var h codec.Handle = new(codec.JsonHandle)
+		var enc *codec.Encoder = codec.NewEncoderBytes(&regionBytes, h)
+		err = enc.Encode(region)
+		if err != nil {
+			panic(err.Error())
 		}
+
+		os.WriteFile(regionPath, regionBytes, os.ModePerm)
+	} else {
+		var h codec.Handle = new(codec.JsonHandle)
+		var dec *codec.Decoder = codec.NewDecoderBytes(regionBytes, h)
+		err = dec.Decode(region)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+
+	sanctuaryBytes, err := os.ReadFile(sanctuaryPath)
+	var sanctuary Sanctuary
+
+	if err != nil {
+		sanctuary = NewSanctuary()
+
+		var h codec.Handle = new(codec.JsonHandle)
+		var enc *codec.Encoder = codec.NewEncoderBytes(&sanctuaryBytes, h)
+		err = enc.Encode(sanctuary)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		os.WriteFile(sanctuaryPath, sanctuaryBytes, os.ModePerm)
+	} else {
+		var h codec.Handle = new(codec.JsonHandle)
+		var dec *codec.Decoder = codec.NewDecoderBytes(sanctuaryBytes, h)
+		err = dec.Decode(sanctuary)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+
+}
+
+type Sanctuary struct {
+	Id           uuid.UUID
+	Name         string
+	RegionId     uuid.UUID
+	Houses       []House
+	Mons         []mon.Mon
+	DepartedMons []uuid.UUID
+	DeadMons     []uuid.UUID
+}
+
+func NewSanctuary() Sanctuary {
+	id, _ := uuid.NewUUID()
+	return NewSanctuaryInRegion(id)
+}
+
+func NewSanctuaryInRegion(regionId uuid.UUID) Sanctuary {
+	id, _ := uuid.NewUUID()
+	return Sanctuary{
+		Id:           id,
+		Name:         "New Sanctuary",
+		RegionId:     regionId,
+		Houses:       make([]House, 1),
+		Mons:         make([]mon.Mon, 1),
+		DepartedMons: make([]uuid.UUID, 0),
+		DeadMons:     make([]uuid.UUID, 0),
 	}
 }
 
 type Region struct {
+	Id          uuid.UUID
 	GrowthChart map[mon.Form][]mon.Form
 	FoodPrefs   map[mon.Form][]food.Type
 }
@@ -65,8 +119,8 @@ func NewRegion(name string) (region Region) {
 	region.GrowthChart[mon.Quadruped] = []mon.Form{mon.Multiped}
 
 	region.FoodPrefs = make(map[mon.Form][]food.Type, 32)
-	for _, f := range mon.FormValues() {
-		region.FoodPrefs[f] = RandomFoodList(3)
+	for _, form := range mon.FormValues() {
+		region.FoodPrefs[form] = RandomFoodList(3)
 	}
 
 	return
@@ -81,44 +135,11 @@ func RandomFoodList(maxCount int) (list []food.Type) {
 	foodTypes := food.TypeValues()
 	count := rand.Intn(maxCount) + 1
 
-	for range rand.Intn(count) {
+	for range count {
 		randFood := rand.Intn(len(foodTypes))
-		list = append(list)
+		list = append(list, foodTypes[randFood])
 		foodTypes = remove(foodTypes, randFood)
 	}
 
 	return
-}
-
-func RandGrowthList(currentMonForm mon.Form, newEdgesCount int) []mon.Form {
-	result := make([]mon.Form, 0, newEdgesCount)
-	monForms := make([]mon.Form, 0, 10)
-	monFormsLen := len(mon.FormValues())
-
-	fmt.Println("rand_growth_list___________________________")
-	fmt.Println("current mon.Form = ", currentMonForm)
-	fmt.Println("from ", int(mon.Baby)+1, " to ", monFormsLen)
-	for i := int(mon.Baby) + 1; i < monFormsLen; i++ {
-		if i != int(currentMonForm) {
-			fmt.Println("appending ", mon.Form(i), "(int", i, ")", " to monForms (len ", len(monForms), ")")
-			monForms = append(monForms, mon.Form(i))
-		}
-	}
-
-	for i := range monForms {
-		fmt.Println(monForms[i])
-	}
-
-	for range newEdgesCount {
-		randInt := rand.Intn(len(monForms))
-		result = append(result, monForms[randInt])
-		monForms = Remove(monForms, randInt)
-		fmt.Println("Adding edge ", randInt, " to ", currentMonForm, "_________________")
-		fmt.Println("monForms now equals")
-		for i := range monForms {
-			fmt.Println("  ", monForms[i])
-		}
-	}
-
-	return result
 }
