@@ -21,7 +21,7 @@ func main() {
 
 	dataPath := filepath.Join(basedir.DataHome, ProjectName)
 	regionPath := filepath.Join(dataPath, "region.json")
-	sanctuaryPath := filepath.Join(dataPath, "save.json")
+	sanctuaryPath := filepath.Join(dataPath, "sanctuary.json")
 
 	regionBytes, err := os.ReadFile(regionPath)
 	var region Region
@@ -58,7 +58,7 @@ func main() {
 			panic(err.Error())
 		}
 
-		os.WriteFile(sanctuaryPath, sanctuaryBytes, os.ModePerm)
+		os.WriteFile(sanctuaryPath, sanctuaryBytes, 0o777)
 	} else {
 		var h codec.Handle = new(codec.JsonHandle)
 		var dec *codec.Decoder = codec.NewDecoderBytes(sanctuaryBytes, h)
@@ -67,7 +67,6 @@ func main() {
 			panic(err.Error())
 		}
 	}
-
 }
 
 type Sanctuary struct {
@@ -91,8 +90,8 @@ func NewSanctuaryInRegion(regionId uuid.UUID) Sanctuary {
 		Id:           id,
 		Name:         "New Sanctuary",
 		RegionId:     regionId,
-		Houses:       make([]House, 1),
-		Mons:         make([]mon.Mon, 1),
+		Houses:       make([]House, 0),
+		Mons:         make([]mon.Mon, 0),
 		DepartedMons: make([]uuid.UUID, 0),
 		DeadMons:     make([]uuid.UUID, 0),
 	}
@@ -105,6 +104,7 @@ type Region struct {
 }
 
 func NewRegion(name string) (region Region) {
+	region.Id, _ = uuid.NewUUID()
 	region.GrowthChart = make(map[mon.Form][]mon.Form, 32)
 
 	region.GrowthChart[mon.Egg] = []mon.Form{mon.Baby}
