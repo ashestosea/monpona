@@ -37,14 +37,14 @@ type Mon struct {
 	Fitness   byte // 0-24
 	Fullness  byte // 0-24
 	Wellness  byte // 0-24
-
 }
 
 func New() Mon {
 	form := Form(rand.Intn(13))
+	id, _ := uuid.NewUUID()
 
 	return Mon{
-		Id:        uuid.New(),
+		Id:        id,
 		Name:      string(form),
 		MonType:   form,
 		Age:       0,
