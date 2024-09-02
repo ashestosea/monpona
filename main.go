@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"math/rand"
 	"os"
@@ -10,7 +11,6 @@ import (
 	"github.com/ashestosea/monpona/mon"
 	"github.com/google/uuid"
 	"github.com/rkoesters/xdg/basedir"
-	"github.com/ugorji/go/codec"
 )
 
 const ProjectName = "monpona"
@@ -23,49 +23,26 @@ func main() {
 	regionPath := filepath.Join(dataPath, "region.json")
 	sanctuaryPath := filepath.Join(dataPath, "sanctuary.json")
 
-	regionBytes, err := os.ReadFile(regionPath)
 	var region Region
+	regionBytes, err := os.ReadFile(regionPath)
 
 	if err != nil {
 		region = NewRegion("NewRegion")
-		var h codec.Handle = new(codec.JsonHandle)
-		var enc *codec.Encoder = codec.NewEncoderBytes(&regionBytes, h)
-		err = enc.Encode(region)
-		if err != nil {
-			panic(err.Error())
-		}
-
-		os.WriteFile(regionPath, regionBytes, os.ModePerm)
+		regEnc, _ := json.MarshalIndent(region, "", "\t")
+		os.WriteFile(regionPath, regEnc, os.ModePerm)
 	} else {
-		var h codec.Handle = new(codec.JsonHandle)
-		var dec *codec.Decoder = codec.NewDecoderBytes(regionBytes, h)
-		err = dec.Decode(region)
-		if err != nil {
-			panic(err.Error())
-		}
+		json.Unmarshal(regionBytes, &region)
 	}
 
-	sanctuaryBytes, err := os.ReadFile(sanctuaryPath)
 	var sanctuary Sanctuary
+	sanctuaryBytes, err := os.ReadFile(sanctuaryPath)
 
 	if err != nil {
 		sanctuary = NewSanctuary()
-
-		var h codec.Handle = new(codec.JsonHandle)
-		var enc *codec.Encoder = codec.NewEncoderBytes(&sanctuaryBytes, h)
-		err = enc.Encode(sanctuary)
-		if err != nil {
-			panic(err.Error())
-		}
-
-		os.WriteFile(sanctuaryPath, sanctuaryBytes, 0o777)
+		sancEnc, _ := json.MarshalIndent(sanctuary, "", "\t")
+		os.WriteFile(sanctuaryPath, sancEnc, 0o777)
 	} else {
-		var h codec.Handle = new(codec.JsonHandle)
-		var dec *codec.Decoder = codec.NewDecoderBytes(sanctuaryBytes, h)
-		err = dec.Decode(sanctuary)
-		if err != nil {
-			panic(err.Error())
-		}
+		json.Unmarshal(sanctuaryBytes, &sanctuary)
 	}
 }
 
