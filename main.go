@@ -14,6 +14,7 @@ import (
 )
 
 const ProjectName = "monpona"
+const FilePerm = 0644
 
 func main() {
 	newMon := mon.New()
@@ -29,7 +30,7 @@ func main() {
 	if err != nil {
 		region = NewRegion("NewRegion")
 		regEnc, _ := json.MarshalIndent(region, "", "\t")
-		os.WriteFile(regionPath, regEnc, os.ModePerm)
+		os.WriteFile(regionPath, regEnc, FilePerm)
 	} else {
 		json.Unmarshal(regionBytes, &region)
 	}
@@ -40,7 +41,7 @@ func main() {
 	if err != nil {
 		sanctuary = NewSanctuary()
 		sancEnc, _ := json.MarshalIndent(sanctuary, "", "\t")
-		os.WriteFile(sanctuaryPath, sancEnc, 0o777)
+		os.WriteFile(sanctuaryPath, sancEnc, FilePerm)
 	} else {
 		json.Unmarshal(sanctuaryBytes, &sanctuary)
 	}
