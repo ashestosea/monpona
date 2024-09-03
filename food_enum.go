@@ -4,7 +4,7 @@
 // Build Date: 2023-12-18T15:54:43Z
 // Built By: goreleaser
 
-package food
+package main
 
 import (
 	"fmt"
@@ -13,7 +13,7 @@ import (
 
 const (
 	// RainbowGrass is a Type of type RainbowGrass.
-	RainbowGrass Type = iota
+	RainbowGrass Food = iota
 	// Ooznip is a Type of type Ooznip.
 	Ooznip
 	// Berry is a Type of type Berry.
@@ -44,8 +44,8 @@ func TypeNames() []string {
 }
 
 // TypeValues returns a list of the values for Type
-func TypeValues() []Type {
-	return []Type{
+func TypeValues() []Food {
+	return []Food{
 		RainbowGrass,
 		Ooznip,
 		Berry,
@@ -54,7 +54,7 @@ func TypeValues() []Type {
 	}
 }
 
-var _TypeMap = map[Type]string{
+var _TypeMap = map[Food]string{
 	RainbowGrass: _TypeName[0:12],
 	Ooznip:       _TypeName[12:18],
 	Berry:        _TypeName[18:23],
@@ -63,7 +63,7 @@ var _TypeMap = map[Type]string{
 }
 
 // String implements the Stringer interface.
-func (x Type) String() string {
+func (x Food) String() string {
 	if str, ok := _TypeMap[x]; ok {
 		return str
 	}
@@ -72,12 +72,12 @@ func (x Type) String() string {
 
 // IsValid provides a quick way to determine if the typed value is
 // part of the allowed enumerated values
-func (x Type) IsValid() bool {
+func (x Food) IsValid() bool {
 	_, ok := _TypeMap[x]
 	return ok
 }
 
-var _TypeValue = map[string]Type{
+var _TypeValue = map[string]Food{
 	_TypeName[0:12]:                   RainbowGrass,
 	strings.ToLower(_TypeName[0:12]):  RainbowGrass,
 	_TypeName[12:18]:                  Ooznip,
@@ -91,7 +91,7 @@ var _TypeValue = map[string]Type{
 }
 
 // ParseType attempts to convert a string to a Type.
-func ParseType(name string) (Type, error) {
+func ParseType(name string) (Food, error) {
 	if x, ok := _TypeValue[name]; ok {
 		return x, nil
 	}
@@ -99,16 +99,16 @@ func ParseType(name string) (Type, error) {
 	if x, ok := _TypeValue[strings.ToLower(name)]; ok {
 		return x, nil
 	}
-	return Type(0), fmt.Errorf("%s is %w", name, ErrInvalidType)
+	return Food(0), fmt.Errorf("%s is %w", name, ErrInvalidType)
 }
 
 // MarshalText implements the text marshaller method.
-func (x Type) MarshalText() ([]byte, error) {
+func (x Food) MarshalText() ([]byte, error) {
 	return []byte(x.String()), nil
 }
 
 // UnmarshalText implements the text unmarshaller method.
-func (x *Type) UnmarshalText(text []byte) error {
+func (x *Food) UnmarshalText(text []byte) error {
 	name := string(text)
 	tmp, err := ParseType(name)
 	if err != nil {
