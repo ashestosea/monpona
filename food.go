@@ -21,7 +21,7 @@ func remove[L any](l []L, i int) []L {
 }
 
 func RandomFoodList(maxCount int) (list []Food) {
-	foodTypes := TypeValues()
+	foodTypes := FoodValues()
 	count := rand.Intn(maxCount) + 1
 
 	for range count {

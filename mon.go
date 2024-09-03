@@ -40,7 +40,7 @@ type Mon struct {
 
 func NewMon() Mon {
 	// form := Form(rand.Intn(int(len(FormValues()))))
-	form := Egg
+	form := FormEgg
 	id, _ := uuid.NewUUID()
 
 	return Mon{
@@ -67,13 +67,13 @@ func (mon *Mon) AgeUp(sanctuary Sanctuary, region Region) {
 
 func (mon *Mon) ChangeForm(sanctuary Sanctuary, region Region) {
 	switch mon.MonType {
-	case Egg:
-		mon.MonType = Baby
-	case Baby:
+	case FormEgg:
+		mon.MonType = FormBaby
+	case FormBaby:
 
-	case Head:
-	case Serpentine:
-	case Insectoid:
+	case FormHead:
+	case FormSerpentine:
+	case FormInsectoid:
 	}
 }
 

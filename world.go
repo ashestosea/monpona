@@ -14,16 +14,16 @@ func NewRegion(name string) (region Region) {
 	region.Id, _ = uuid.NewUUID()
 	region.GrowthChart = make(map[Form][]Form, 32)
 
-	region.GrowthChart[Egg] = []Form{Baby}
-	region.GrowthChart[Baby] = []Form{Head, Serpentine}
+	region.GrowthChart[FormEgg] = []Form{FormBaby}
+	region.GrowthChart[FormBaby] = []Form{FormHead, FormSerpentine}
 
-	region.GrowthChart[Serpentine] = []Form{Insectoid, Winged}
-	region.GrowthChart[Head] = []Form{HeadArms, HeadLegs, Multibody}
+	region.GrowthChart[FormSerpentine] = []Form{FormInsectoid, FormWinged}
+	region.GrowthChart[FormHead] = []Form{FormHeadArms, FormHeadLegs, FormMultibody}
 
-	region.GrowthChart[Insectoid] = []Form{Winged}
-	region.GrowthChart[HeadArms] = []Form{Bipedal, Winged}
-	region.GrowthChart[HeadLegs] = []Form{Bipedal, Quadruped, Multiped, Winged}
-	region.GrowthChart[Quadruped] = []Form{Multiped}
+	region.GrowthChart[FormInsectoid] = []Form{FormWinged}
+	region.GrowthChart[FormHeadArms] = []Form{FormBipedal, FormWinged}
+	region.GrowthChart[FormHeadLegs] = []Form{FormBipedal, FormQuadruped, FormMultiped, FormWinged}
+	region.GrowthChart[FormQuadruped] = []Form{FormMultiped}
 
 	region.FoodPrefs = make(map[Form][]Food, 32)
 	for _, form := range FormValues() {

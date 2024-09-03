@@ -12,94 +12,94 @@ import (
 )
 
 const (
-	// RainbowGrass is a Type of type RainbowGrass.
-	RainbowGrass Food = iota
-	// Ooznip is a Type of type Ooznip.
-	Ooznip
-	// Berry is a Type of type Berry.
-	Berry
-	// Groundnut is a Type of type Groundnut.
-	Groundnut
-	// Carnivorous is a Type of type Carnivorous.
-	Carnivorous
+	// FoodRainbowGrass is a Food of type RainbowGrass.
+	FoodRainbowGrass Food = iota
+	// FoodOoznip is a Food of type Ooznip.
+	FoodOoznip
+	// FoodBerry is a Food of type Berry.
+	FoodBerry
+	// FoodGroundnut is a Food of type Groundnut.
+	FoodGroundnut
+	// FoodCarnivorous is a Food of type Carnivorous.
+	FoodCarnivorous
 )
 
-var ErrInvalidType = fmt.Errorf("not a valid Type, try [%s]", strings.Join(_TypeNames, ", "))
+var ErrInvalidFood = fmt.Errorf("not a valid Food, try [%s]", strings.Join(_FoodNames, ", "))
 
-const _TypeName = "RainbowGrassOoznipBerryGroundnutCarnivorous"
+const _FoodName = "RainbowGrassOoznipBerryGroundnutCarnivorous"
 
-var _TypeNames = []string{
-	_TypeName[0:12],
-	_TypeName[12:18],
-	_TypeName[18:23],
-	_TypeName[23:32],
-	_TypeName[32:43],
+var _FoodNames = []string{
+	_FoodName[0:12],
+	_FoodName[12:18],
+	_FoodName[18:23],
+	_FoodName[23:32],
+	_FoodName[32:43],
 }
 
-// TypeNames returns a list of possible string values of Type.
-func TypeNames() []string {
-	tmp := make([]string, len(_TypeNames))
-	copy(tmp, _TypeNames)
+// FoodNames returns a list of possible string values of Food.
+func FoodNames() []string {
+	tmp := make([]string, len(_FoodNames))
+	copy(tmp, _FoodNames)
 	return tmp
 }
 
-// TypeValues returns a list of the values for Type
-func TypeValues() []Food {
+// FoodValues returns a list of the values for Food
+func FoodValues() []Food {
 	return []Food{
-		RainbowGrass,
-		Ooznip,
-		Berry,
-		Groundnut,
-		Carnivorous,
+		FoodRainbowGrass,
+		FoodOoznip,
+		FoodBerry,
+		FoodGroundnut,
+		FoodCarnivorous,
 	}
 }
 
-var _TypeMap = map[Food]string{
-	RainbowGrass: _TypeName[0:12],
-	Ooznip:       _TypeName[12:18],
-	Berry:        _TypeName[18:23],
-	Groundnut:    _TypeName[23:32],
-	Carnivorous:  _TypeName[32:43],
+var _FoodMap = map[Food]string{
+	FoodRainbowGrass: _FoodName[0:12],
+	FoodOoznip:       _FoodName[12:18],
+	FoodBerry:        _FoodName[18:23],
+	FoodGroundnut:    _FoodName[23:32],
+	FoodCarnivorous:  _FoodName[32:43],
 }
 
 // String implements the Stringer interface.
 func (x Food) String() string {
-	if str, ok := _TypeMap[x]; ok {
+	if str, ok := _FoodMap[x]; ok {
 		return str
 	}
-	return fmt.Sprintf("Type(%d)", x)
+	return fmt.Sprintf("Food(%d)", x)
 }
 
 // IsValid provides a quick way to determine if the typed value is
 // part of the allowed enumerated values
 func (x Food) IsValid() bool {
-	_, ok := _TypeMap[x]
+	_, ok := _FoodMap[x]
 	return ok
 }
 
-var _TypeValue = map[string]Food{
-	_TypeName[0:12]:                   RainbowGrass,
-	strings.ToLower(_TypeName[0:12]):  RainbowGrass,
-	_TypeName[12:18]:                  Ooznip,
-	strings.ToLower(_TypeName[12:18]): Ooznip,
-	_TypeName[18:23]:                  Berry,
-	strings.ToLower(_TypeName[18:23]): Berry,
-	_TypeName[23:32]:                  Groundnut,
-	strings.ToLower(_TypeName[23:32]): Groundnut,
-	_TypeName[32:43]:                  Carnivorous,
-	strings.ToLower(_TypeName[32:43]): Carnivorous,
+var _FoodValue = map[string]Food{
+	_FoodName[0:12]:                   FoodRainbowGrass,
+	strings.ToLower(_FoodName[0:12]):  FoodRainbowGrass,
+	_FoodName[12:18]:                  FoodOoznip,
+	strings.ToLower(_FoodName[12:18]): FoodOoznip,
+	_FoodName[18:23]:                  FoodBerry,
+	strings.ToLower(_FoodName[18:23]): FoodBerry,
+	_FoodName[23:32]:                  FoodGroundnut,
+	strings.ToLower(_FoodName[23:32]): FoodGroundnut,
+	_FoodName[32:43]:                  FoodCarnivorous,
+	strings.ToLower(_FoodName[32:43]): FoodCarnivorous,
 }
 
-// ParseType attempts to convert a string to a Type.
-func ParseType(name string) (Food, error) {
-	if x, ok := _TypeValue[name]; ok {
+// ParseFood attempts to convert a string to a Food.
+func ParseFood(name string) (Food, error) {
+	if x, ok := _FoodValue[name]; ok {
 		return x, nil
 	}
 	// Case insensitive parse, do a separate lookup to prevent unnecessary cost of lowercasing a string if we don't need to.
-	if x, ok := _TypeValue[strings.ToLower(name)]; ok {
+	if x, ok := _FoodValue[strings.ToLower(name)]; ok {
 		return x, nil
 	}
-	return Food(0), fmt.Errorf("%s is %w", name, ErrInvalidType)
+	return Food(0), fmt.Errorf("%s is %w", name, ErrInvalidFood)
 }
 
 // MarshalText implements the text marshaller method.
@@ -110,7 +110,7 @@ func (x Food) MarshalText() ([]byte, error) {
 // UnmarshalText implements the text unmarshaller method.
 func (x *Food) UnmarshalText(text []byte) error {
 	name := string(text)
-	tmp, err := ParseType(name)
+	tmp, err := ParseFood(name)
 	if err != nil {
 		return err
 	}

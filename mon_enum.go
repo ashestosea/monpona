@@ -12,32 +12,32 @@ import (
 )
 
 const (
-	// Egg is a Form of type Egg.
-	Egg Form = iota
-	// Baby is a Form of type Baby.
-	Baby
-	// Head is a Form of type Head.
-	Head
-	// Serpentine is a Form of type Serpentine.
-	Serpentine
-	// HeadArms is a Form of type HeadArms.
-	HeadArms
-	// HeadLegs is a Form of type HeadLegs.
-	HeadLegs
-	// Quadruped is a Form of type Quadruped.
-	Quadruped
-	// Multiped is a Form of type Multiped.
-	Multiped
-	// Insectoid is a Form of type Insectoid.
-	Insectoid
-	// Winged is a Form of type Winged.
-	Winged
-	// Aquatic is a Form of type Aquatic.
-	Aquatic
-	// Bipedal is a Form of type Bipedal.
-	Bipedal
-	// Multibody is a Form of type Multibody.
-	Multibody
+	// FormEgg is a Form of type Egg.
+	FormEgg Form = iota
+	// FormBaby is a Form of type Baby.
+	FormBaby
+	// FormHead is a Form of type Head.
+	FormHead
+	// FormSerpentine is a Form of type Serpentine.
+	FormSerpentine
+	// FormHeadArms is a Form of type HeadArms.
+	FormHeadArms
+	// FormHeadLegs is a Form of type HeadLegs.
+	FormHeadLegs
+	// FormQuadruped is a Form of type Quadruped.
+	FormQuadruped
+	// FormMultiped is a Form of type Multiped.
+	FormMultiped
+	// FormInsectoid is a Form of type Insectoid.
+	FormInsectoid
+	// FormWinged is a Form of type Winged.
+	FormWinged
+	// FormAquatic is a Form of type Aquatic.
+	FormAquatic
+	// FormBipedal is a Form of type Bipedal.
+	FormBipedal
+	// FormMultibody is a Form of type Multibody.
+	FormMultibody
 )
 
 var ErrInvalidForm = fmt.Errorf("not a valid Form, try [%s]", strings.Join(_FormNames, ", "))
@@ -70,36 +70,36 @@ func FormNames() []string {
 // FormValues returns a list of the values for Form
 func FormValues() []Form {
 	return []Form{
-		Egg,
-		Baby,
-		Head,
-		Serpentine,
-		HeadArms,
-		HeadLegs,
-		Quadruped,
-		Multiped,
-		Insectoid,
-		Winged,
-		Aquatic,
-		Bipedal,
-		Multibody,
+		FormEgg,
+		FormBaby,
+		FormHead,
+		FormSerpentine,
+		FormHeadArms,
+		FormHeadLegs,
+		FormQuadruped,
+		FormMultiped,
+		FormInsectoid,
+		FormWinged,
+		FormAquatic,
+		FormBipedal,
+		FormMultibody,
 	}
 }
 
 var _FormMap = map[Form]string{
-	Egg:        _FormName[0:3],
-	Baby:       _FormName[3:7],
-	Head:       _FormName[7:11],
-	Serpentine: _FormName[11:21],
-	HeadArms:   _FormName[21:29],
-	HeadLegs:   _FormName[29:37],
-	Quadruped:  _FormName[37:46],
-	Multiped:   _FormName[46:54],
-	Insectoid:  _FormName[54:63],
-	Winged:     _FormName[63:69],
-	Aquatic:    _FormName[69:76],
-	Bipedal:    _FormName[76:83],
-	Multibody:  _FormName[83:92],
+	FormEgg:        _FormName[0:3],
+	FormBaby:       _FormName[3:7],
+	FormHead:       _FormName[7:11],
+	FormSerpentine: _FormName[11:21],
+	FormHeadArms:   _FormName[21:29],
+	FormHeadLegs:   _FormName[29:37],
+	FormQuadruped:  _FormName[37:46],
+	FormMultiped:   _FormName[46:54],
+	FormInsectoid:  _FormName[54:63],
+	FormWinged:     _FormName[63:69],
+	FormAquatic:    _FormName[69:76],
+	FormBipedal:    _FormName[76:83],
+	FormMultibody:  _FormName[83:92],
 }
 
 // String implements the Stringer interface.
@@ -118,32 +118,32 @@ func (x Form) IsValid() bool {
 }
 
 var _FormValue = map[string]Form{
-	_FormName[0:3]:                    Egg,
-	strings.ToLower(_FormName[0:3]):   Egg,
-	_FormName[3:7]:                    Baby,
-	strings.ToLower(_FormName[3:7]):   Baby,
-	_FormName[7:11]:                   Head,
-	strings.ToLower(_FormName[7:11]):  Head,
-	_FormName[11:21]:                  Serpentine,
-	strings.ToLower(_FormName[11:21]): Serpentine,
-	_FormName[21:29]:                  HeadArms,
-	strings.ToLower(_FormName[21:29]): HeadArms,
-	_FormName[29:37]:                  HeadLegs,
-	strings.ToLower(_FormName[29:37]): HeadLegs,
-	_FormName[37:46]:                  Quadruped,
-	strings.ToLower(_FormName[37:46]): Quadruped,
-	_FormName[46:54]:                  Multiped,
-	strings.ToLower(_FormName[46:54]): Multiped,
-	_FormName[54:63]:                  Insectoid,
-	strings.ToLower(_FormName[54:63]): Insectoid,
-	_FormName[63:69]:                  Winged,
-	strings.ToLower(_FormName[63:69]): Winged,
-	_FormName[69:76]:                  Aquatic,
-	strings.ToLower(_FormName[69:76]): Aquatic,
-	_FormName[76:83]:                  Bipedal,
-	strings.ToLower(_FormName[76:83]): Bipedal,
-	_FormName[83:92]:                  Multibody,
-	strings.ToLower(_FormName[83:92]): Multibody,
+	_FormName[0:3]:                    FormEgg,
+	strings.ToLower(_FormName[0:3]):   FormEgg,
+	_FormName[3:7]:                    FormBaby,
+	strings.ToLower(_FormName[3:7]):   FormBaby,
+	_FormName[7:11]:                   FormHead,
+	strings.ToLower(_FormName[7:11]):  FormHead,
+	_FormName[11:21]:                  FormSerpentine,
+	strings.ToLower(_FormName[11:21]): FormSerpentine,
+	_FormName[21:29]:                  FormHeadArms,
+	strings.ToLower(_FormName[21:29]): FormHeadArms,
+	_FormName[29:37]:                  FormHeadLegs,
+	strings.ToLower(_FormName[29:37]): FormHeadLegs,
+	_FormName[37:46]:                  FormQuadruped,
+	strings.ToLower(_FormName[37:46]): FormQuadruped,
+	_FormName[46:54]:                  FormMultiped,
+	strings.ToLower(_FormName[46:54]): FormMultiped,
+	_FormName[54:63]:                  FormInsectoid,
+	strings.ToLower(_FormName[54:63]): FormInsectoid,
+	_FormName[63:69]:                  FormWinged,
+	strings.ToLower(_FormName[63:69]): FormWinged,
+	_FormName[69:76]:                  FormAquatic,
+	strings.ToLower(_FormName[69:76]): FormAquatic,
+	_FormName[76:83]:                  FormBipedal,
+	strings.ToLower(_FormName[76:83]): FormBipedal,
+	_FormName[83:92]:                  FormMultibody,
+	strings.ToLower(_FormName[83:92]): FormMultibody,
 }
 
 // ParseForm attempts to convert a string to a Form.
