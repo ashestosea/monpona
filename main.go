@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/rkoesters/xdg/basedir"
 )
@@ -48,7 +49,18 @@ func main() {
 		sanctuary.Mons = append(sanctuary.Mons, NewMon())
 	}
 
-	for _, mon := range sanctuary.Mons {
-		fmt.Println(mon)
+	newMon.Diet = FoodValues()
+
+	// currentTime := time.Now()
+	ticker := time.NewTicker(time.Second * 10)
+	done := make(chan bool)
+
+	for {
+		select {
+		case <-done:
+			return
+		case <-ticker.C:
+			newMon.ChangeForm(sanctuary, region)
+		}
 	}
 }
