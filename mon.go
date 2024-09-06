@@ -32,7 +32,7 @@ type Form byte
 type Mon struct {
 	Id        uuid.UUID
 	Name      string
-	MonType   Form
+	MonForm   Form
 	Age       int    // Minutes
 	Happiness byte   // 0-24
 	Fitness   byte   // 0-24
@@ -49,7 +49,7 @@ func NewMon() Mon {
 	return Mon{
 		Id:        id,
 		Name:      "Eggbert",
-		MonType:   form,
+		MonForm:   form,
 		Age:       0,
 		Happiness: 12,
 		Fitness:   12,
@@ -76,13 +76,13 @@ func (mon *Mon) ChangeForm(sanctuary Sanctuary, region Region) {
 
 	fmt.Println("CHANGE FORM____________________")
 
-	if mon.MonType == FormEgg {
-		mon.MonType = FormBaby
+	if mon.MonForm == FormEgg {
+		mon.MonForm = FormBaby
 	} else {
 		newFormWeights := make(map[Form]float32)
 		var total float32
 
-		for _, newForm := range region.GrowthChart[mon.MonType] {
+		for _, newForm := range region.GrowthChart[mon.MonForm] {
 			for _, foodPref := range region.FoodPrefs[newForm] {
 				weight := float32(dietCounts[foodPref])
 				newFormWeights[newForm] = weight
@@ -105,13 +105,13 @@ func (mon *Mon) ChangeForm(sanctuary Sanctuary, region Region) {
 			remainingDist -= weight
 			fmt.Println("  remainingDist = ", remainingDist, " form = ", newForm)
 			if remainingDist < 0 {
-				mon.MonType = newForm
+				mon.MonForm = newForm
 				break
 			}
 		}
 	}
 
-	fmt.Println("newForm = ", mon.MonType)
+	fmt.Println("newForm = ", mon.MonForm)
 }
 
 const (

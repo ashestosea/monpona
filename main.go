@@ -18,7 +18,7 @@ var sanctuary Sanctuary
 
 func main() {
 	newMon := NewMon()
-	fmt.Println(newMon.MonType)
+	fmt.Println(newMon.MonForm)
 
 	dataPath := filepath.Join(basedir.DataHome, ProjectName)
 	regionPath := filepath.Join(dataPath, "region.json")
