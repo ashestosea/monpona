@@ -17,9 +17,6 @@ var region Region
 var sanctuary Sanctuary
 
 func main() {
-	newMon := NewMon()
-	fmt.Println(newMon.MonForm)
-
 	dataPath := filepath.Join(basedir.DataHome, ProjectName)
 	regionPath := filepath.Join(dataPath, "region.json")
 	sanctuaryPath := filepath.Join(dataPath, "sanctuary.json")
@@ -45,11 +42,12 @@ func main() {
 	}
 
 	if len(sanctuary.Mons) == 0 {
-		newMon = NewMon()
-		sanctuary.Mons = append(sanctuary.Mons, NewMon())
+		newMon := NewMon()
+		newMon.Diet = FoodValues()
+		region.Mons = append(region.Mons, newMon)
+		sanctuary.Mons = append(sanctuary.Mons, newMon.Id)
+		fmt.Println("New Mon ", newMon.Id, " ", newMon.MonForm)
 	}
-
-	newMon.Diet = FoodValues()
 
 	// currentTime := time.Now()
 	ticker := time.NewTicker(time.Second * 10)
@@ -60,7 +58,9 @@ func main() {
 		case <-done:
 			return
 		case <-ticker.C:
-			newMon.ChangeForm(sanctuary, region)
+			for _, mon := range region.Mons {
+				mon.ChangeForm(sanctuary, region)
+			}
 		}
 	}
 }

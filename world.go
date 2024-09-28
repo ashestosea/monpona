@@ -8,6 +8,7 @@ type Region struct {
 	Id          uuid.UUID
 	GrowthChart map[Form][]Form
 	FoodPrefs   map[Form][]Food
+	Mons        []Mon
 }
 
 func NewRegion(name string) (region Region) {

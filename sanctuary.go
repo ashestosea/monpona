@@ -9,7 +9,7 @@ type Sanctuary struct {
 	Name         string
 	RegionId     uuid.UUID
 	Houses       []House
-	Mons         []Mon
+	Mons         []uuid.UUID
 	DepartedMons []uuid.UUID
 	DeadMons     []uuid.UUID
 }
@@ -26,7 +26,7 @@ func NewSanctuaryInRegion(regionId uuid.UUID) Sanctuary {
 		Name:         "New Sanctuary",
 		RegionId:     regionId,
 		Houses:       make([]House, 0),
-		Mons:         make([]Mon, 0),
+		Mons:         make([]uuid.UUID, 0),
 		DepartedMons: make([]uuid.UUID, 0),
 		DeadMons:     make([]uuid.UUID, 0),
 	}
@@ -36,7 +36,3 @@ type House struct {
 	monId uuid.UUID
 	food  []Food
 }
-
-var houses []House
-var departedMons []uuid.UUID
-var deadMons []uuid.UUID
