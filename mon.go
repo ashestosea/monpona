@@ -6,7 +6,6 @@ import (
 	"math/rand"
 
 	"fmt"
-	"github.com/google/uuid"
 )
 
 /*
@@ -29,8 +28,10 @@ Multibody,
 */
 type Form byte
 
+type MonId int
+
 type Mon struct {
-	Id        uuid.UUID
+	Id        MonId
 	Name      string
 	MonForm   Form
 	Age       int    // Minutes
@@ -44,7 +45,7 @@ type Mon struct {
 func NewMon() Mon {
 	// form := Form(rand.Intn(int(len(FormValues()))))
 	form := FormEgg
-	id, _ := uuid.NewUUID()
+	id := region.NewMonId()
 
 	return Mon{
 		Id:        id,

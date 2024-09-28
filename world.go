@@ -8,6 +8,7 @@ type Region struct {
 	Id          uuid.UUID
 	GrowthChart map[Form][]Form
 	FoodPrefs   map[Form][]Food
+	Sanctuaries []Sanctuary
 	Mons        []Mon
 }
 
@@ -31,5 +32,32 @@ func NewRegion(name string) (region Region) {
 		region.FoodPrefs[form] = RandomFoodList(3)
 	}
 
+	region.Sanctuaries = make([]Sanctuary, 1)
+	region.Sanctuaries[0] = NewSanctuary()
+
 	return
+}
+
+func (region Region) NewMonId() MonId {
+	var id MonId
+	monCount := len(region.Mons)
+	if monCount == 0 {
+		id = 0
+	} else {
+		id = region.Mons[monCount-1].Id
+	}
+
+	return id + 1
+}
+
+func (region Region) NewSanctuaryId() SanctuaryId {
+	var id SanctuaryId
+	sancCount := len(region.Sanctuaries)
+	if sancCount == 0 {
+		id = 0
+	} else {
+		id = region.Sanctuaries[sancCount-1].Id
+	}
+
+	return id + 1
 }

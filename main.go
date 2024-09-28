@@ -19,8 +19,6 @@ var sanctuary Sanctuary
 func main() {
 	dataPath := filepath.Join(basedir.DataHome, ProjectName)
 	regionPath := filepath.Join(dataPath, "region.json")
-	sanctuaryPath := filepath.Join(dataPath, "sanctuary.json")
-
 	regionBytes, err := os.ReadFile(regionPath)
 
 	if err != nil {
@@ -31,7 +29,7 @@ func main() {
 		json.Unmarshal(regionBytes, &region)
 	}
 
-	sanctuaryBytes, err := os.ReadFile(sanctuaryPath)
+	/* sanctuaryBytes, err := os.ReadFile(sanctuaryPath)
 
 	if err != nil {
 		sanctuary = NewSanctuary()
@@ -39,7 +37,9 @@ func main() {
 		os.WriteFile(sanctuaryPath, sancEnc, FilePerm)
 	} else {
 		json.Unmarshal(sanctuaryBytes, &sanctuary)
-	}
+	} */
+
+	sanctuary = region.Sanctuaries[0]
 
 	if len(sanctuary.Mons) == 0 {
 		newMon := NewMon()
