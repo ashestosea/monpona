@@ -60,13 +60,33 @@ func NewMon() Mon {
 	}
 }
 
+func (mon *Mon) Update(sanctuary Sanctuary, region Region) {
+	mon.AgeUp(sanctuary, region)
+}
+
 func (mon *Mon) AgeUp(sanctuary Sanctuary, region Region) {
 	mon.Age += 1
 
-	switch mon.Age {
-	case 2:
+	if GrowthCheck(*mon) {
 		mon.ChangeForm(sanctuary, region)
+		mon.Diet = make([]Food, 0)
 	}
+}
+
+func GrowthCheck(mon Mon) bool {
+	fmt.Println("Age check ", mon.Age)
+	if len(mon.Diet) == 0 {
+		return false
+	}
+	switch {
+	case mon.Age < 6:
+		return mon.Age > rand.Intn(5)
+	case mon.Age == 60:
+		return true
+	case mon.Age > 1200:
+		return mon.Age%1200 > rand.Intn(960)
+	}
+	return false
 }
 
 func (mon *Mon) ChangeForm(sanctuary Sanctuary, region Region) {

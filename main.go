@@ -29,18 +29,6 @@ func main() {
 		json.Unmarshal(regionBytes, &region)
 	}
 
-	/* sanctuaryBytes, err := os.ReadFile(sanctuaryPath)
-
-	if err != nil {
-		sanctuary = NewSanctuary()
-		sancEnc, _ := json.MarshalIndent(sanctuary, "", "\t")
-		os.WriteFile(sanctuaryPath, sancEnc, FilePerm)
-	} else {
-		json.Unmarshal(sanctuaryBytes, &sanctuary)
-	} */
-
-	sanctuary = region.Sanctuaries[0]
-
 	if len(sanctuary.Mons) == 0 {
 		newMon := NewMon()
 		newMon.Diet = FoodValues()
@@ -50,7 +38,7 @@ func main() {
 	}
 
 	// currentTime := time.Now()
-	ticker := time.NewTicker(time.Second * 10)
+	ticker := time.NewTicker(time.Millisecond)
 	done := make(chan bool)
 
 	for {
@@ -58,8 +46,8 @@ func main() {
 		case <-done:
 			return
 		case <-ticker.C:
-			for _, mon := range region.Mons {
-				mon.ChangeForm(sanctuary, region)
+			for i, _ := range region.Mons {
+				region.Mons[i].Update(sanctuary, region)
 			}
 		}
 	}
