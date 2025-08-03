@@ -14,6 +14,7 @@ type Sanctuary struct {
 	Mons         []MonId
 	DepartedMons []MonId
 	DeadMons     []MonId
+	FoodSources  []FoodSource
 }
 
 func NewSanctuary() Sanctuary {
@@ -25,10 +26,15 @@ func NewSanctuary() Sanctuary {
 		Mons:         make([]MonId, 0),
 		DepartedMons: make([]MonId, 0),
 		DeadMons:     make([]MonId, 0),
+		FoodSources:  make([]FoodSource, 0),
 	}
 }
 
 type House struct {
 	monId uuid.UUID
 	food  []Food
+}
+
+func (sanc *Sanctuary) PlantFoodSource(foodType Food, amount int) {
+	sanc.FoodSources = append(sanc.FoodSources, FoodSource{FoodType: foodType, Remaining: amount})
 }

@@ -32,3 +32,8 @@ func RandomFoodList(maxCount int) (list []Food) {
 
 	return
 }
+
+type FoodSource struct {
+	FoodType  Food
+	Remaining int
+}
